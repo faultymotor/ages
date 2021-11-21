@@ -5,9 +5,11 @@ def find_centroid(ndarray):
     return np.array([np.sum(ndarray[:,0]), np.sum(ndarray[:,1])]) / length
 
 def relax(vertices, regions):
-    region_vertices = [np.asarray([vertices[coord] for coord in region]) for region in regions if len(region) > 0]
+    hulls = filter(bool, regions)
+    hulls = map(lambda hull: np.take(vertices, hull, 0), hulls)
+    hulls = map(find_centroid, hulls)
 
-    return [find_centroid(vertices) for vertices in region_vertices]
+    return np.array(list(hulls))
 
 def constrain(points, bounds):
     width, height = bounds

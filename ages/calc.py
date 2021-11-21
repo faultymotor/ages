@@ -6,7 +6,7 @@ SIZE = 100
 POINTS = 500
 
 def get_random_voronoi(size=SIZE, num_points=POINTS):
-    points = (np.random.rand(num_points, 2) * size).astype('uint64')
+    points = (np.random.rand(num_points, 2) * size)
     return Voronoi(points)
 
 def lloyd_relaxation(vor, reps=1, size=SIZE):
