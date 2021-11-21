@@ -9,7 +9,7 @@ def get_random_voronoi(size=SIZE, points=POINTS):
     points = (np.random.rand(points, 2) * size).astype('uint8')
     return Voronoi(points)
 
-def lloyd_relaxation(vor, size=SIZE):
+def lloyd_relaxation(vor, reps=1, size=SIZE):
     region_vertices = []
 
     for region in vor.regions:
@@ -23,8 +23,9 @@ def lloyd_relaxation(vor, size=SIZE):
     for point in supposed_points:
         if 0 <= point[0] and point[0] < size and 0 <= point[1] and point[1] < size:
             new_points.append(point)
-            
-    return Voronoi(new_points)
+    
+    vor = Voronoi(new_points)
+    return lloyd_relaxation(vor, reps - 1, size) if reps > 1 else vor
 
 def centeroidnp(arr):
     length = arr.shape[0]
